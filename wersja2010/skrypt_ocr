@@ -1,0 +1,99 @@
+#!/bin/bash
+
+depth=800
+x=20
+if [ -e hidden.txt ] 
+then
+rm hidden.txt
+fi
+
+
+for i in {24..1283} #1283 ostatnia
+do
+if [ -e tmp.txt ] 
+then
+rm tmp.txt
+fi
+#zrobic by tu i byl
+djvused Troc_deu-f.djvu -e "select $i; print-txt" >> tmp.txt
+echo Przepisano naglowek strony $i pliku Troc_deu-f.djvu "do" pliku tmp.txt
+
+
+ile=`head -n $depth tmp.txt | grep line | wc -l`
+
+ta=4
+
+tab0="dasdas"
+tab0=`head -n $depth tmp.txt | grep line | head -n 1 | tr -d "(" | cut -d" " -f2`
+if [ "$tab0" == "line" ]
+then
+ta=3
+fi
+
+
+
+tab=`head -n $depth tmp.txt | grep line | tr -d "(" | cut -d" " -f$ta | head -n $x`
+y=$(($x-1))
+
+
+for j in {1..20}
+do
+tab2[$j]=`echo $tab | cut -d" " -f$j`
+if [ "${tab2[$j]}" == "line" ]
+then 
+tab2[$j]=500
+fi
+done
+
+
+poprz=${tab2[$x]}
+min=$x
+for j in {1..19}
+do 
+k=$(($x-$j))
+
+curr=${tab2[$k]}
+rozn1=$((poprz - curr))
+rozn2=$((curr - poprz))
+if [ $rozn1 -lt 0 ]
+	then
+	rozn1=$rozn2
+fi
+if [ $rozn1 -gt 11 ]
+	then
+	if [ $curr -lt $poprz ]
+	then
+	poprz=$curr
+	min=$k
+	fi
+else
+poprz=$curr
+min=$k
+fi
+done
+
+
+ten=$(($min))
+zm1=`head -n 1 tmp.txt`
+zm2=`head -n $depth tmp.txt | grep line | head -n $ten | tail -n 1`
+zm3=`head -n $depth tmp.txt | grep line | head -n $ten | tail -n 1 | tr -d "(line"`
+zm4=`head -n $i troc_metadata | tr -d "(" | grep $i | head -n 1 | cut -d"~" -f2`
+
+
+if [ -e hidden_tmp.txt ] 
+then
+rm hidden_tmp.txt
+fi
+echo "Strona: "$i": "$zm1" "$zm2" (word "$zm3" "\"$zm4\"" )))" >> hidden.txt
+echo $zm1" "$zm2" (word "$zm3" "\"$zm4\"" )))" >> hidden_tmp.txt
+echo "dodalismy tekst ukrytu do strony "$i "do pliku hidden.txt"
+
+if [ "$1" == "-s" ]
+then
+djvused -e "select $i; set-txt hidden_tmp.txt" -s Trotz.djvu
+echo Wprowadzilismy tekst ukryty na stronie $i
+fi
+
+done
+
+
