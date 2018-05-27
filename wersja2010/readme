@@ -1,0 +1,28 @@
+
+skryp_outline wprowadza outline korzystajac z pliku troc_outline3
+odpalamy:
+djvused -f skrypt_outline -s Trotz.djvu
+
+skrypt_ocr czyta "brudnego ocr" Troc-deu.djvu, czyta jedna strona zapisuja ja w pliku tmp.txt, nastepnie czyta plik, filtruje pierwsze iles linni slownika, w ktorych jest napis "line". nastepnie sposrod nich odgaduja te, gdzie powinno byc haslo. w skrocie szuka pierwszego wciecia w tych linniach i uwaza ze tam jest haslo. I wprowadza do trotz.djvu tekst ukryty tam gdzie zgadl (nazwe slowa bierze z pliku troc_metadata).
+skrypt_ocr wypisuje do hidden.txt tekst ukryty ktory sobie przygotowal.
+jezeli uruchomimy z opcja s:
+
+./skrypt_ocr -s
+
+to wprowadzi rowniez dane do słownika.
+plik troc_metadata sluzy jedynie jako zrodlo nazw slow, ktore chcemy indeksowac.
+!Uwaga, w paczce nie ma pliku Troc_deu-f.djvu, wydawalo mi sie bez sensu przesylanie go, to ten sam co na Pana stronie
+
+Zalaczam hidden.txt wytworzony przez ten skrypt, poprzedni Trotz.djvu ktory Panu przeslalem ma praktycznie ten sam tekst ukryty co wytworzony tym skryptem
+
+Program nie zawsze trafia poprawnie w slowo, zawsze jednak oznacza dobra strone, co umozliwia wyszukiwanie przyrostowe. Nie daje sie zawsze trafic bo czesto sa wciecia w poprzednim hasle i w pliku brudnym OCR wygladaja tak samo jak by to bylo nowe haslo. 
+
+skrypt_ocr odpalamy:
+
+chmod +x skrypt_ocr
+./skrypt_ocr [-s]
+
+
+
+
+
