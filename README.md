@@ -10,3 +10,5 @@ formacie DjVu.
 W 2018 r. Janusz S. Bień przystosował indeks do programu
 djview4poliqarp (https://bitbucket.org/mrudolf/djview-poliqarp/) i do
 aktualnej lokalizacji słownika.
+
+Wcześniej repozytorium znajdowalo się pod adresem https://bitbucket.org/jsbien/troc-index4djvu.
